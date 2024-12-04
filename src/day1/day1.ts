@@ -93,7 +93,7 @@ export async function day1() {
 
   const pairs = pairNumbers(left, right);
 
-  const sum = calculatePairDistance(pairs);
+  const pairDistance = calculatePairDistance(pairs);
 
   const similarityScore = calculateSimilarityScore(left, right);
 
@@ -101,10 +101,10 @@ export async function day1() {
     day: "day1",
     part1: {
       text: "Sum is: ",
-      result: sum,
+      result: pairDistance,
     },
     part2: {
-      text: "Similarity",
+      text: "Similarity score is: ",
       result: similarityScore,
     },
   });
