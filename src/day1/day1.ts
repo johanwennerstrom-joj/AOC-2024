@@ -24,12 +24,11 @@ export function formatLists(
       left: leftList.toSorted(),
       right: rightList.toSorted(),
     };
-  } else {
-    return {
-      left: leftList,
-      right: rightList,
-    };
   }
+  return {
+    left: leftList,
+    right: rightList,
+  };
 }
 
 export function pairNumbers(left: number[], right: number[]) {
@@ -46,7 +45,8 @@ export function calculatePairDistance(pairs: Pairs) {
   const totalSum = pairs.reduce((accumulator, [left, right]) => {
     if (left > right) {
       accumulator += left - right;
-    } else if (right > left) {
+    }
+    if (right > left) {
       accumulator += right - left;
     }
     return accumulator;
@@ -56,19 +56,16 @@ export function calculatePairDistance(pairs: Pairs) {
 }
 
 export function getInstancesOfNumbers(arr: number[]) {
-  const sorted = arr.toSorted();
-
-  const numberInstances = sorted.reduce<{ [key: number]: number }>(
-    (accumulator, currentValue) => {
+  const numberInstances = arr
+    .toSorted()
+    .reduce<{ [key: number]: number }>((accumulator, currentValue) => {
       if (accumulator[currentValue] === undefined) {
         accumulator[currentValue] = 1;
       } else {
         accumulator[currentValue]++;
       }
       return accumulator;
-    },
-    {}
-  );
+    }, {});
 
   return numberInstances;
 }
