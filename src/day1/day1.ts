@@ -10,9 +10,11 @@ export function formatLists(
     .reduce<{ leftList: number[]; rightList: number[] }>(
       ({ leftList, rightList }, current) => {
         const [left, right] = current.split(/\u0020{3}/);
-        leftList.push(parseInt(left));
-        rightList.push(parseInt(right));
-        return { leftList, rightList };
+
+        return {
+          leftList: [...leftList, parseInt(left)],
+          rightList: [...rightList, parseInt(right)],
+        };
       },
       { leftList: [], rightList: [] }
     );
