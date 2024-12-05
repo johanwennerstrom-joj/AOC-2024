@@ -1,5 +1,3 @@
-import { Logger } from "jsr:@deno-library/logger";
-
 export async function getInput(path: string) {
   return await Deno.readTextFile(path);
 }
@@ -14,12 +12,14 @@ interface AnnounceDayResultParams {
   part2?: Part;
 }
 
-const logger = new Logger();
-
 export function announceDayResult({
   day,
   part1,
   part2,
 }: AnnounceDayResultParams) {
-  logger.info({ [day]: { part1, part2 } });
+  console.log(
+    `Results for ${day}: \n ⭐: ${part1.text} ${part1.result} \n ⭐⭐: ${
+      part2?.text ?? "Not done"
+    } ${part2?.result ?? ""}`
+  );
 }

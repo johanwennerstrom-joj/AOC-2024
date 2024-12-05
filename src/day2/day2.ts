@@ -65,7 +65,7 @@ export async function day2() {
   const validDampenedReports = calculateValidReports(file.split("\n"));
 
   announceDayResult({
-    day: "day1",
+    day: "day2",
     part1: {
       text: "Number of valid reports: ",
       result: validReports,
