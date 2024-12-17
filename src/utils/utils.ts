@@ -18,8 +18,9 @@ export function announceDayResult({
   part2,
 }: AnnounceDayResultParams) {
   console.log(
-    `Results for ${day}: \n ⭐: ${part1.text} ${part1.result} \n ⭐⭐: ${
+    `%cResults for ${day}: \n ⭐: ${part1.text} ${part1.result} \n ⭐⭐: ${
       part2?.text ?? "Not done"
-    } ${part2?.result ?? ""}`
+    } ${part2?.result ?? ""}`,
+    `color:red; font-size:20px;`
   );
 }

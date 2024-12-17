@@ -4,7 +4,10 @@ import { calculateValidReports, validReport } from "../day2.ts";
 const file = await Deno.readTextFile("src/day2/test/input2.test.txt");
 
 Deno.test("calculateValidReports", () => {
-  assertEquals(calculateValidReports(file.split("\n")), 2);
+  assertEquals(calculateValidReports(file.split("\n")), {
+    base: 2,
+    withDampener: 2,
+  });
 });
 
 Deno.test("validReport asserts true", () => {
@@ -13,4 +16,9 @@ Deno.test("validReport asserts true", () => {
 
 Deno.test("validReport asserts false", () => {
   assertEquals(validReport([1, 2, 7, 8, 9]), false);
+});
+
+Deno.test("c", () => {
+  const { base, withDampener } = calculateValidReports(file.split("\n"));
+  assertEquals(base + withDampener, 4);
 });

@@ -1,11 +1,5 @@
 import { announceDayResult, getInput } from "../utils/utils.ts";
 
-// Any two adjacent levels differ by at least one and at most three.
-
-function levelToInt(levels: string[]) {
-  return levels.map((level) => parseInt(level));
-}
-
 function validDiff(num: number, toCompare: number) {
   if (num > toCompare) {
     return num - toCompare >= 1 && num - toCompare <= 3;
@@ -21,7 +15,6 @@ export function validReport(levels: number[]) {
   let isIncreasing = false;
   let allowedDiff = true;
   let notMoved = false;
-  let problemCount = 0;
 
   for (let i = 1; i < levels.length; i++) {
     const prev = levels[i - 1];
@@ -29,46 +22,69 @@ export function validReport(levels: number[]) {
 
     if (!validDiff(prev, current)) {
       allowedDiff = false;
-      problemCount += 1;
     }
     if (prev === current) {
       notMoved = true;
-      problemCount += 1;
     }
     if (prev > current) isDecreasing = true;
     if (prev < current) isIncreasing = true;
   }
 
-  const neither = isDecreasing && isIncreasing;
-  if (!allowedDiff) return false;
-  if (neither || notMoved) {
-    problemCount += 1;
+  if ((isDecreasing && isIncreasing) || notMoved || !allowedDiff) {
     return false;
   }
 
   return isDecreasing || isIncreasing;
 }
 
-export function calculateValidReports(reports: string[]) {
-  return reports.reduce((accumulator, report) => {
-    if (validReport(levelToInt(report.split(" ")))) {
-      accumulator += 1;
+export function validReportWithRemoval(levels: number[]): boolean {
+  for (let i = 0; i < levels.length; i++) {
+    const newLevels = levels.slice(0, i).concat(levels.slice(i + 1));
+    if (validReport(newLevels)) {
+      return true;
     }
-    return accumulator;
-  }, 0);
+  }
+  return false;
+}
+
+function levelToInt(levels: string[]) {
+  return levels.map((level) => parseInt(level));
+}
+
+export function calculateValidReports(reports: string[]) {
+  return reports.reduce<{ base: number; withDampener: number }>(
+    ({ base, withDampener }, report) => {
+      const levels = levelToInt(report.split(" "));
+
+      if (validReport(levels)) {
+        base += 1;
+      } else if (validReportWithRemoval(levels)) {
+        withDampener += 1;
+      }
+
+      return {
+        base,
+        withDampener,
+      };
+    },
+    { base: 0, withDampener: 0 }
+  );
 }
 
 export async function day2() {
   const file = await getInput("src/day2/input2.txt");
-  const validReports = calculateValidReports(file.split("\n"));
-
-  const validDampenedReports = calculateValidReports(file.split("\n"));
+  const reports = file.split("\n");
+  const validReports = calculateValidReports(reports);
 
   announceDayResult({
     day: "day2",
     part1: {
       text: "Number of valid reports: ",
-      result: validReports,
+      result: validReports.base,
+    },
+    part2: {
+      text: "Number of valid reports with the Problem Dampener: ",
+      result: validReports.base + validReports.withDampener,
     },
   });
 }
