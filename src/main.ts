@@ -1,8 +1,10 @@
 import { day1 } from "./day1/day1.ts";
 import { parseArgs } from "@std/cli/parse-args";
+import { day2 } from "./day2/day2.ts";
 
 const AOC2024 = {
   day1,
+  day2,
 };
 
 const args = parseArgs(Deno.args);
