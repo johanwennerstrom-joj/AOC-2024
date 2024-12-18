@@ -18,7 +18,7 @@ Deno.test("validReport asserts false", () => {
   assertEquals(validReport([1, 2, 7, 8, 9]), false);
 });
 
-Deno.test("c", () => {
+Deno.test("with dampener res should be 4", () => {
   const { base, withDampener } = calculateValidReports(file.split("\n"));
   assertEquals(base + withDampener, 4);
 });
